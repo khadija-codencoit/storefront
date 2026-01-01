@@ -4,7 +4,7 @@ from django.db import models
 
 
 class Promotion(models.Model):
-    describtion = models.CharField(max_length=255)
+    description = models.TextField()
     discount = models.FloatField()
 
 
@@ -20,12 +20,12 @@ class Collection(models.Model):
 
 class Product(models.Model):
     title = models.CharField(max_length=255)
-    describtion = models.TextField()
-    slug = models.SlugField(unique=True)
+    description = models.TextField()
+    slug = models.SlugField(unique=True,null=True, )
     unit_price = models.DecimalField(max_digits=6, decimal_places=2)
     inventory = models.IntegerField()
     last_update = models.DateTimeField(auto_now=True)
-    collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
+    collection = models.ForeignKey(Collection, on_delete=models.CASCADE, null=True)
     promotions = models.ManyToManyField(Promotion, blank=True)
 
     def __str__(self):

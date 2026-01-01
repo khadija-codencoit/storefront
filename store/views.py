@@ -7,7 +7,21 @@ from .serializers import ProductSerializer,CollectionSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
+from rest_framework.generics import ListCreateAPIView
 from rest_framework import status
+
+class ProductList(ListCreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+    # def get_queryset(self):
+    #     return Product.objects.all()
+    
+    # def get_serializer_class(self):
+    #     return ProductSerializer
+    def get_serializer_context(self):
+        return {'request':self.request}
+
 
 
 class CollectionDetail(APIView):
@@ -16,18 +30,18 @@ class CollectionDetail(APIView):
         serializer = CollectionSerializer(collection, context={'request': request})
         return Response(serializer.data)
 
-class ProductList(APIView):
-    def get(self, request):
-        if request.method == 'GET':
-            queryset = Product.objects.all()
-            serializer = ProductSerializer(queryset, many = True, context = {'request':request})
-            return Response(serializer.data)
+# class ProductList(APIView):
+#     def get(self, request):
+#         if request.method == 'GET':
+#             queryset = Product.objects.all()
+#             serializer = ProductSerializer(queryset, many = True, context = {'request':request})
+#             return Response(serializer.data)
     
-    def post(self,request):
-        serializer = ProductSerializer(data = request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
+#     def post(self,request):
+#         serializer = ProductSerializer(data = request.data)
+#         serializer.is_valid(raise_exception=True)
+#         serializer.save()
+#         return Response(serializer.data)
     
 class ProductDetail(APIView):
     def get(self,request,id):
