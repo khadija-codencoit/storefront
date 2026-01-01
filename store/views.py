@@ -14,17 +14,20 @@ class ProductList(ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
-    # def get_queryset(self):
-    #     return Product.objects.all()
-    
-    # def get_serializer_class(self):
-    #     return ProductSerializer
+    def get_serializer_context(self):
+        return {'request':self.request}
+
+class CollectionList(ListCreateAPIView):
+    queryset = Collection.objects.all()
+    serializer_class = CollectionSerializer
+
     def get_serializer_context(self):
         return {'request':self.request}
 
 
 
 class CollectionDetail(APIView):
+     
     def get(self, request, pk):
         collection = get_object_or_404(Collection, pk=pk)
         serializer = CollectionSerializer(collection, context={'request': request})
