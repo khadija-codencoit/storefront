@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.db.models.aggregates import Count,Max,Min
 from django.db.models import Q, F
-from .models import Product, Collection
+from .models import Product, Collection,Review
 from .serializers import ProductSerializer,CollectionSerializer,ReviewSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -32,11 +32,11 @@ def destroy(self, request, pk=None):
         product.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
- class ReviwViewSet(ModelViewSet):
+class ReviewViewSet(ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-    
-          
+
+
 class CollectionViewSet(ModelViewSet):
     queryset = Collection.objects.all()
     serializer_class = CollectionSerializer
