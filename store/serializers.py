@@ -12,7 +12,7 @@ class ProductSerializer(serializers.ModelSerializer):
     price_with_tax = serializers.SerializerMethodField()
     collection = serializers.HyperlinkedRelatedField(
         queryset=Collection.objects.all(),
-        view_name="collection-details"
+        view_name='collection-detail'
     )
 
     class Meta:
