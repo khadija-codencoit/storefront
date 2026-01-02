@@ -14,7 +14,6 @@ class ProductSerializer(serializers.ModelSerializer):
         queryset=Collection.objects.all(),
         view_name='collection-detail'
     )
-
     class Meta:
         model = Product
         # Field names must match your model
@@ -22,3 +21,9 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def get_price_with_tax(self, product):
         return product.unit_price * Decimal(1.1)
+
+
+ class ReviewSerializer(serializer.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ['id', 'date', 'name', 'description','product']
