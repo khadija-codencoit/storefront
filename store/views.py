@@ -9,34 +9,16 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
 from rest_framework import status
+from rest_framework.viewsets import ModelViewSet
 
-class ProductList(ListCreateAPIView):
+
+class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
     def get_serializer_context(self):
         return {'request':self.request}
 
-class CollectionList(ListCreateAPIView):
-    queryset = Collection.objects.all()
-    serializer_class = CollectionSerializer
-
-    def get_serializer_context(self):
-        return {'request':self.request}
-
-
-
-class CollectionDetail(APIView):
-     
-    def get(self, request, pk):
-        collection = get_object_or_404(Collection, pk=pk)
-        serializer = CollectionSerializer(collection, context={'request': request})
-        return Response(serializer.data)
-
-class ProductDetail(RetrieveUpdateDestroyAPIView):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-    
     def delete(self,request,id):
         product = get_object_or_404(Product,pk=id)
         if product.orderitems.count() > 0:
@@ -44,6 +26,64 @@ class ProductDetail(RetrieveUpdateDestroyAPIView):
         product.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+class CollectionViewSet(ModelViewSet):
+    queryset = Collection.objects.all()
+    serializer_class = CollectionSerializer
+
+    def get_serializer_context(self):
+        return {'request':self.request}
+
+    def delete(self,request,id):
+        collection = get_object_or_404(Collection,pk=id)
+        if collection.orderitems.count() > 0:
+            return Response({'error':'collection cant delete'})
+        collection.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+
+
+# ==========Generic APIView===============
+
+
+# class ProductList(ListCreateAPIView):
+#     queryset = Product.objects.all()
+#     serializer_class = ProductSerializer
+
+#     def get_serializer_context(self):
+#         return {'request':self.request}
+    
+#     def delete(self,request,id):
+#         product = get_object_or_404(Product,pk=id)
+#         if product.orderitems.count() > 0:
+#             return Response({'error':'Product cant delete'})
+#         product.delete()
+#         return Response(status=status.HTTP_204_NO_CONTENT)
+
+# class ProductDetail(RetrieveUpdateDestroyAPIView):
+#     queryset = Product.objects.all()
+#     serializer_class = ProductSerializer
+    
+#     def delete(self,request,id):
+#         product = get_object_or_404(Product,pk=id)
+#         if product.orderitems.count() > 0:
+#             return Response({'error':'Product cant delete'})
+#         product.delete()
+#         return Response(status=status.HTTP_204_NO_CONTENT)
+
+# class CollectionList(ListCreateAPIView):
+#     queryset = Collection.objects.all()
+#     serializer_class = CollectionSerializer
+
+#     def get_serializer_context(self):
+#         return {'request':self.request}
+
+
+
+
+
+# ==============APIView===============
 
 # class ProductList(APIView):
 #     def get(self, request):
