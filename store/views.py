@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.db.models.aggregates import Count,Max,Min
 from django.db.models import Q, F
-from .models import Product, Collection,Review
+from .models import Product, Collection,Review,Cart
 from .serializers import ProductSerializer,CollectionSerializer,ReviewSerializer,CartSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -80,7 +80,7 @@ class CollectionViewSet(ModelViewSet):
 
 class CartViewSet(CreateModelMixin,GenericViewSet):
     queryset = Cart.objects.all()
-    serializer = CartSerializer
+    serializer_class  = CartSerializer
 
 
 

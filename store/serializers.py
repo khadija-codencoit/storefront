@@ -22,12 +22,12 @@ class ProductSerializer(serializers.ModelSerializer):
     def get_price_with_tax(self, product):
         return product.unit_price * Decimal(1.1)
 
-class CartSerializer(models.Model):
+class CartSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cart
         fields = ['id']
 
-        
+
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
