@@ -3,14 +3,15 @@ from django.shortcuts import get_object_or_404
 from django.db.models.aggregates import Count,Max,Min
 from django.db.models import Q, F
 from .models import Product, Collection,Review
-from .serializers import ProductSerializer,CollectionSerializer,ReviewSerializer
+from .serializers import ProductSerializer,CollectionSerializer,ReviewSerializer,CartSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
+from rest_framework.mixins import CreateModelMixin
 from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.filters import SearchFilter, OrderingFilter
 from .pagination import *
 from .filters import ProductFilter
@@ -77,7 +78,9 @@ class CollectionViewSet(ModelViewSet):
         collection.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
+class CartViewSet(CreateModelMixin,GenericViewSet):
+    queryset = Cart.objects.all()
+    serializer = CartSerializer
 
 
 
