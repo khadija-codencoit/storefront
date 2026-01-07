@@ -1,4 +1,5 @@
 from django.db import models
+from uuid import uuid4
 
 # Create your models here.
 
@@ -47,3 +48,11 @@ class Customer(models.Model):
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=255)
     birth_date = models.DateField(null=True)
+   
+
+class Cart(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)  # Use DateTimeField instead of DateField for timestamps
+
+    def __str__(self):
+        return str(self.id)
