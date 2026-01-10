@@ -3,7 +3,8 @@ from django.shortcuts import get_object_or_404
 from django.db.models.aggregates import Count,Max,Min
 from django.db.models import Q, F
 from .models import Product, Collection,Review,Cart
-from .serializers import ProductSerializer,CollectionSerializer,ReviewSerializer,CartSerializer
+from .serializers import ProductSerializer,CollectionSerializer,ReviewSerializer,CartSerializer,CartItemSerializer
+
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
@@ -81,6 +82,12 @@ class CollectionViewSet(ModelViewSet):
 class CartViewSet(CreateModelMixin, RetrieveModelMixin, DestroyModelMixin,GenericViewSet):
     queryset = Cart.objects.all().prefetch_related('item')
     serializer_class = CartSerializer
+
+class CartItemViewSet(ModelViewSet):
+    serializer_class = CartItemSerializer
+
+    def get_queryset(self):
+        return Review.objects.filter(cart_id= self.kwargs['cart_id'])
 
 
 # ==========Generic APIView===============
