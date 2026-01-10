@@ -78,7 +78,7 @@ class CollectionViewSet(ModelViewSet):
         collection.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-class CartViewSet(CreateModelMixin, RetrieveModelMixin,DestroyModelMixin, GenericViewSet):
+class CartViewSet(CreateModelMixin, RetrieveModelMixin, DestroyModelMixin,GenericViewSet):
     queryset = Cart.objects.all().prefetch_related('item')
     serializer_class = CartSerializer
 
