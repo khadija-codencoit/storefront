@@ -87,8 +87,8 @@ class CartItemViewSet(ModelViewSet):
     serializer_class = CartItemSerializer
 
     def get_queryset(self):
-        return Review.objects.filter(cart_id= self.kwargs['cart_id'])
-
+        cart_id = self.kwargs.get('cart_pk')  
+        return CartItem.objects.filter(cart_id=cart_id)
 
 # ==========Generic APIView===============
 
