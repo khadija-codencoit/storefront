@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.db.models.aggregates import Count,Max,Min
 from django.db.models import Q, F
 from .models import Product, Collection,Review,Cart,Customer
+from .permission.py import IsAdminOrReadOnly
 from .serializers import ProductSerializer,CollectionSerializer,ReviewSerializer,CartSerializer,CartItemSerializer,CustomerSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -27,7 +28,7 @@ class ProductViewSet(ModelViewSet):
     pagination_class = DefaultPagination
     search_fields = ['title', 'description']
     ordering_fields = ['unit_price']
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminOrReadOnly]
 
    
 
