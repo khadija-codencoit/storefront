@@ -94,7 +94,7 @@ class CartItemViewSet(ModelViewSet):
         return CartItem.objects.filter(cart_id=cart_id)
 
 
-class CustomerViewSet(CreateModelMixin, RetrieveModelMixin,GenericViewSet):
+class CustomerViewSet(ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class =  CustomerSerializer
 
