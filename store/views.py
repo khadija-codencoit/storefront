@@ -4,7 +4,6 @@ from django.db.models.aggregates import Count,Max,Min
 from django.db.models import Q, F
 from .models import Product, Collection,Review,Cart,Customer
 from .serializers import ProductSerializer,CollectionSerializer,ReviewSerializer,CartSerializer,CartItemSerializer,CustomerSerializer
-
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
@@ -18,7 +17,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from .pagination import *
 from .filters import ProductFilter
 
- 
+
 
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
