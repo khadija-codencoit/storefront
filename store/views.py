@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.db.models.aggregates import Count,Max,Min
 from django.db.models import Q, F
 from .models import Product, Collection,Review,Cart,Customer
-from .permission.py import IsAdminOrReadOnly
+from .permission import *
 from .serializers import ProductSerializer,CollectionSerializer,ReviewSerializer,CartSerializer,CartItemSerializer,CustomerSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
