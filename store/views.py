@@ -2,9 +2,9 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.db.models.aggregates import Count,Max,Min
 from django.db.models import Q, F
-from .models import Product, Collection,Review,Cart,Customer
+from .models import Product, Collection,Review,Cart,Customer,ProductImage
 from .permission import *
-from .serializers import ProductSerializer,CollectionSerializer,ReviewSerializer,CartSerializer,CartItemSerializer,CustomerSerializer
+from .serializers import ProductSerializer,CollectionSerializer,ReviewSerializer,CartSerializer,CartItemSerializer,CustomerSerializer,ProductImageSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
@@ -56,6 +56,17 @@ class ProductViewSet(ModelViewSet):
 
         product.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    
+class ProductImageViewSet(ModelViewSet):
+    serializer_class = ProductImageSerializer
+
+    def get_object(self):
+        return ProductImage.objects.all(product_id = self.kwargs["product_pk"])
+
+
+
+
 
 class ReviewViewSet(ModelViewSet):
     serializer_class = ReviewSerializer
