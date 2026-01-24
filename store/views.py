@@ -57,9 +57,12 @@ class ProductViewSet(ModelViewSet):
         product.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
-    
+
 class ProductImageViewSet(ModelViewSet):
     serializer_class = ProductImageSerializer
+
+    def get_serializer_context(self):
+        return {'product_id':self.kwargs["product_pk"]}
 
     def get_object(self):
         return ProductImage.objects.all(product_id = self.kwargs["product_pk"])
