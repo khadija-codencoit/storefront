@@ -11,7 +11,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('contenttypes', '0002_remove_content_type_name'),
-        ('store', '0005_cartitem'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
