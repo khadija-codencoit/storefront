@@ -7,21 +7,6 @@ class CollectionSerializer(serializers.ModelSerializer):
         model = Collection
         fields = ['id','title']
 
-class ProductSerializer(serializers.ModelSerializer):
-  
-    price_with_tax = serializers.SerializerMethodField()
-    collection = serializers.HyperlinkedRelatedField(
-        queryset=Collection.objects.all(),
-        view_name='collection-detail'
-    )
-    class Meta:
-        model = Product
-        # Field names must match your model
-        fields = ['id', 'title', 'description', 'slug', 'unit_price', 'inventory', 'last_update', 'collection', 'price_with_tax']
-
-    def get_price_with_tax(self, product):
-        return product.unit_price * Decimal(1.1)
-    
 class ProductImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductImage
@@ -30,6 +15,25 @@ class ProductImageSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         product_id = self.context['product_id']
         return ProductImage.objects.create(product_id=product_id, **validated_data)
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    images = ProductImageSerializer(many=True,read_only = True)
+    price_with_tax = serializers.SerializerMethodField()
+    collection = serializers.HyperlinkedRelatedField(
+        queryset=Collection.objects.all(),
+        view_name='collection-detail'
+    )
+    class Meta:
+        model = Product
+        # Field names must match your model
+        fields = ['id', 'title', 'description', 'slug', 'unit_price', 'inventory',
+         'last_update', 'collection', 'price_with_tax','images']
+
+    def get_price_with_tax(self, product):
+        return product.unit_price * Decimal(1.1)
+    
+
 
 
 
