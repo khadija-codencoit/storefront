@@ -1,5 +1,7 @@
 from django.db import models
 from uuid import uuid4
+from .validators import max_size_kb
+
 
 # Create your models here.
 
@@ -34,9 +36,15 @@ class Product(models.Model):
     
 
 class ProductImage(models.Model):
-    product = models.ForeignKey(Product,on_delete=models.CASCADE, related_name='images')
-    images = models.ImageField(upload_to='store/images')
-
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        related_name='images'
+    )
+    images = models.ImageField(
+        upload_to='store/images',
+        validators=[max_size_kb]
+    )
 class Review(models.Model):
     product = models.ForeignKey(
         Product,
