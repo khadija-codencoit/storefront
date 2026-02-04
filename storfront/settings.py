@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from pathlib import Path
 from datetime import timedelta
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -177,3 +178,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CELERY_BROKER_URL = 'redis://localhost:6379/1'
+
+from playground.task import notify_customer
+CELERY_BEAT_SCHEDULE = {
+    'notify_customers': {
+        'task': 'playground.task.notify_customer',
+        'schedule': timedelta(seconds=5),
+        'args': ('Hello World',),
+    }
+}
