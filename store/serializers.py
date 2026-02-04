@@ -16,7 +16,6 @@ class ProductImageSerializer(serializers.ModelSerializer):
         product_id = self.context['product_id']
         return ProductImage.objects.create(product_id=product_id, **validated_data)
 
-
 class ProductSerializer(serializers.ModelSerializer):
     images = ProductImageSerializer(many=True,read_only = True)
     price_with_tax = serializers.SerializerMethodField()
@@ -34,9 +33,6 @@ class ProductSerializer(serializers.ModelSerializer):
         return product.unit_price * Decimal(1.1)
     
 
-
-
-
 class SimpleProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
@@ -47,8 +43,6 @@ class CartItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = CartItem
         fields = ['id','product','quantity']
-
-
 
 class CartSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(read_only=True)
