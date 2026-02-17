@@ -27,7 +27,14 @@ class TestCreateCollection:
             assert response.status_code == status.HTTP_400_BAD_REQUEST
             assert response.data['title'] is not None
 
-       
+        def test_if_data_is_invalid_returns_201(self):
+   
+            client = APIClient()
+            client.force_authentication(user = User(is_staff=True))
+            response = client.post('/store/collections/', {'title': ''})
+            assert response.status_code == status.HTTP_201_CREATED
+            assert response.data['id'] > 0
+
 
 
 
